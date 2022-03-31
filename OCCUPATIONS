@@ -1,0 +1,13 @@
+
+# 4 Case_when for filtering and creating different 4 different columns with a Max for 
+select  
+    max(case when Occupation = 'doctor' then name end) 'Doctor',
+    max(case when Occupation = 'Professor' then name end) 'Professor',
+    max(case when Occupation = 'Singer' then name end) 'Singer',
+    max(case when Occupation = 'Actor' then name end) 'Actor' 
+from (
+#created extra column for aggregating 
+  select *, row_number() over (partition by Occupation order by name) rn
+  from OCCUPATIONS
+) t
+group by rn
